@@ -35,27 +35,6 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-	const { username, password } = req.body;
-	User.findOne({ username })
-		.then((userDoc) => {
-			if (!userDoc) {
-				next(new Error('Incorrect username '));
-				return;
-			}
-			if (!bcrypt.compareSync(password, userDoc.password)) {
-				next(new Error('Password is wrong'));
-				return;
-			}
-
-			req.logIn(userDoc, () => {
-				userDoc.password = undefined;
-				res.json(userDoc);
-			});
-		})
-		.catch((err) => next(err));
-});
-
-router.post('/login-localStrategy', (req, res, next) => {
 	passport.authenticate('local', (err, theUser, failureDetails) => {
 		if (err) {
 			res.status(500).json({ message: 'Something went wrong' });

@@ -47,7 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(
 	session({
-		secret: process.env.SESSION_SECRET || 'irongenerator',
+		secret: process.env.SESSION_SECRET || 'secret',
 		resave: true,
 		saveUninitialized: true,
 		store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -74,7 +74,6 @@ app.use((err, req, res, next) => {
 	// only render if the error ocurred before sending the response
 	if (!res.headersSent) {
 		res.status(err.status || 500);
-
 		// A limited amount of information sent in production
 		if (process.env.NODE_ENV === 'production') res.json(err);
 		else res.json(JSON.parse(JSON.stringify(err, Object.getOwnPropertyNames(err))));
