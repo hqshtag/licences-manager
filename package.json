@@ -1,0 +1,42 @@
+{
+  "name": "licences-management",
+  "version": "1.0.0",
+  "description": "Licences management crud app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github/kikinass/licences-management.git"
+  },
+  "keywords": [
+    "licences",
+    "managmenet",
+    "api",
+    "crud",
+    "mern"
+  ],
+  "author": "Wajih Tagourty",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "fs-extra": "^8.1.0",
+    "license-key-gen": "^0.1.2",
+    "mongoose": "^5.6.5",
+    "morgan": "^1.9.1",
+    "nocache": "^2.1.0",
+    "node-rsa": "^1.0.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "rotating-file-stream": "^1.4.2"
+  }
+}
