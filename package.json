@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "backend": "nodemon server",
+    "frontend": "npm run start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
     "type": "git",
@@ -38,5 +40,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "rotating-file-stream": "^1.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1"
   }
 }
