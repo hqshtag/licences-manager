@@ -39,6 +39,6 @@
     "rotating-file-stream": "^1.4.2"
   },
   "devDependencies": {
-    "concurrently": "^4.1.1"
+    "concurrently": "^4.1.2"
   }
 }
