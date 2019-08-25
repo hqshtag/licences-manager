@@ -1,64 +1,65 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const fs = require("fs");
+
+const {
+  verifySignup,
+  handleUserExistance,
+  verifyUserExistance
+} = require("../middleware/userValidator");
 
 // Bcrypt to encrypt passwords
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
-router.post('/signup', (req, res, next) => {
-	const { username, password, name } = req.body;
-	if (!username || !password) {
-		res.status(400).json({ message: 'Indicate username and password' });
-		return;
-	}
-	User.findOne({ username })
-		.then((userDoc) => {
-			if (userDoc !== null) {
-				res.status(409).json({ message: 'The username already exists' });
-				return;
-			}
-			const salt = bcrypt.genSaltSync(bcryptSalt);
-			const hashPass = bcrypt.hashSync(password, salt);
-			const newUser = new User({ username, password: hashPass, name });
-			return newUser.save();
-		})
-		.then((userSaved) => {
-			req.logIn(userSaved, () => {
-				// hide "encryptedPassword" before sending the JSON (it's a security risk)
-				userSaved.password = undefined;
-				res.json(userSaved);
-			});
-		})
-		.catch((err) => next(err));
+router.post("/signup", handleUserExistance, verifySignup, async (req, res) => {
+  const { username, password } = req.body;
+
+  const salt = await bcrypt.genSalt(bcryptSalt);
+  const hashPass = await bcrypt.hash(password, salt);
+
+  const user = new User({ username, password: hashPass });
+  try {
+    const savedUser = await user.save();
+    savedUser.password = undefined;
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-router.post('/login', (req, res, next) => {
-	passport.authenticate('local', (err, theUser, failureDetails) => {
-		if (err) {
-			res.status(500).json({ message: 'Something went wrong' });
-			return;
-		}
+router.post("/login", verifySignup, verifyUserExistance, async (req, res) => {
+  if (!res.locals.userExists)
+    res.status(404).json({ message: "Username not registred" });
+  else {
+    const { username, password } = res.locals.user;
+    const validPass = await bcrypt.compare(req.body.password, password);
+    if (!validPass) res.status(400).json({ message: "Invalid password" });
 
-		if (!theUser) {
-			res.status(401).json(failureDetails);
-			return;
-		}
+    //create and assign a token
+    const payload = {
+      _id: res.locals.user._id
+    };
 
-		req.login(theUser, (err) => {
-			if (err) {
-				res.status(500).json({ message: 'Something went wrong' });
-				return;
-			}
-			res.json(req.user);
-		});
-	})(req, res, next);
+    const privateKey = fs.readFileSync("ssl/keys/private.key", "utf8");
+    // const publicKey = fs.readFileSync("../public.key", "utf8");
+
+    // SIGNING OPTIONS
+    const signOptions = {
+      expiresIn: "24h",
+      algorithm: "RS256"
+    };
+
+    const token = jwt.sign(payload, privateKey, signOptions);
+
+    res.header("auth-token", token).json({ "auth-token": token });
+  }
 });
 
-router.get('/logout', (req, res) => {
-	req.logout();
-	res.json({ message: 'You are out!' });
+router.get("/logout", (req, res) => {
+  res.status(200).json({ message: "You are out!" });
 });
 
 module.exports = router;
