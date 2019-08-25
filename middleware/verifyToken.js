@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
         expiresIn: "12h",
         algorithm: ["RS256"]
       };
-      const publicKey = fs.readFileSync("public.key", "utf8");
+      const publicKey = fs.readFileSync("ssl/keys/public.key", "utf8");
 
       const verified = jwt.verify(token, publicKey, options);
       res.locals.user = verified;

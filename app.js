@@ -46,6 +46,7 @@ app.use(logger("short", { stream: accessLogStream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use("/", require("./routes/index"));
 app.use("/api", require("./routes/auth"));
 app.use("/api/licences", verifyToken);
 app.use("/api/licences", require("./routes/licences"));

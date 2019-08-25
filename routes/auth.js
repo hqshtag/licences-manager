@@ -43,12 +43,12 @@ router.post("/login", verifySignup, verifyUserExistance, async (req, res) => {
       _id: res.locals.user._id
     };
 
-    const privateKey = fs.readFileSync("private.key", "utf8");
+    const privateKey = fs.readFileSync("ssl/keys/private.key", "utf8");
     // const publicKey = fs.readFileSync("../public.key", "utf8");
 
     // SIGNING OPTIONS
     const signOptions = {
-      expiresIn: "12h",
+      expiresIn: "24h",
       algorithm: "RS256"
     };
 
