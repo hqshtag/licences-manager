@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux';
-
-import licenceReducer from './bundle/licences/reducers';
-import userReducer from './bundle/users/reducers';
-import sessionReducer from './bundle/sessions/reducers';
+import { combineReducers } from "redux";
+import { authReducer } from "./reducers/authentication.reducer.js";
+import layoutReducer from "./reducers/layoutReducer";
+import formReducer from "./reducers/formReducer";
+import apiReducer from "./reducers/apiReducer";
 
 const rootReducer = combineReducers({
-	session: sessionReducer,
-	licences: licenceReducer,
-	users: userReducer
+  auth: authReducer,
+  api: apiReducer,
+  layout: layoutReducer,
+  form: formReducer
 });
 
 export default rootReducer;

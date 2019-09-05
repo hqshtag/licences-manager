@@ -53,8 +53,9 @@ router.post("/login", verifySignup, verifyUserExistance, async (req, res) => {
     };
 
     const token = jwt.sign(payload, privateKey, signOptions);
-
-    res.header("auth-token", token).json({ "auth-token": token });
+    res
+      .header("auth-token", token)
+      .json({ "auth-token": token, username, id: res.locals.user._id });
   }
 });
 

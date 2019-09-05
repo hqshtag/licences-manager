@@ -1,13 +1,16 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from './Store';
+import React from "react";
+import { Provider } from "react-redux";
+import store from "./Store";
 
-function App() {
-	return (
-		<Provider store={store}>
-			<h1>This is my react app</h1>
-		</Provider>
-	);
+import AppRouter from "./AppRouter";
+
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppRouter />
+      </Provider>
+    );
+  }
 }
-
 export default App;

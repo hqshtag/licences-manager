@@ -37,7 +37,7 @@ let licences = [
       password: "rosebery",
       name: "Anothony Cpon",
       phone: "558 107 2009",
-      adress: "Trinaty Avenue 68",
+      address: "Trinaty Avenue 68",
       zip: "1337",
       country: "USA",
       state: "California"
@@ -53,7 +53,7 @@ let licences = [
       password: "cliont1986",
       name: "Eliria Cliont",
       phone: "9558 1070 29",
-      adress: "2nd Buffelton street house 11",
+      address: "2nd Buffelton street house 11",
       zip: "17331",
       country: "USA",
       state: "Arizona"
@@ -85,9 +85,7 @@ Licence.deleteMany()
   })
   .then(licecesCreated => {
     console.log(
-      `${
-        licecesCreated.length
-      } licences were added to the database with the following id: `
+      `${licecesCreated.length} licences were added to the database with the following id: `
     );
     licecesCreated.map(l => {
       console.log(l._id);

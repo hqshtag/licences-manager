@@ -120,7 +120,7 @@ router.post(
       let filePath = `./afnor/${result.license}`;
       fs.mkdir(filePath, { recursive: true }, err => {
         if (err) next(err);
-        console.log("folders created");
+        // console.log("folders created");
       });
       newLicence.save(err => {
         if (err) next(err);
@@ -132,7 +132,7 @@ router.post(
             if (err) next(err);
             res.status(201).json(newLicence);
 
-            console.log("written data to file");
+            // console.log("written data to file");
           }
         );
       });

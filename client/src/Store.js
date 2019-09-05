@@ -1,18 +1,14 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
-import rootReducer from './Reducer';
+import rootReducer from "./Reducer";
 
-const initialState = {
-	licences: [],
-	users: [],
-	session: null
-};
+const middleware = [thunk];
 
-const middleware = [ thunk ];
+const store = createStore(
+  rootReducer,
 
-const store = createStore(rootReducer, initialState, applyMiddleware(...middleware));
-
-console.log(store.getState());
+  applyMiddleware(...middleware)
+);
 
 export default store;
