@@ -28,7 +28,7 @@ const verifyNewLicence = (req, res, next) => {
         //.regex(/^[a-z ,.'-]+$/)
         .required(),
       phone: Joi.string(), //.regex(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
-      adress: Joi.string(),
+      address: Joi.string(),
       zip: Joi.string(), //.regex(/[0-9]{4,5}(-[0-9]{4})?/),
       country: Joi.string(),
       state: Joi.string()
@@ -60,7 +60,7 @@ const verifyLicenceUpdateRequest = (req, res, next) => {
         .max(60),
       //.regex(/^[a-z ,.'-]+$/),
       phone: Joi.string(), //.regex(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/),
-      adress: Joi.string(),
+      address: Joi.string(),
       zip: Joi.string(), //.regex(/[0-9]{4,5}(-[0-9]{4})?/),
       country: Joi.string(),
       state: Joi.string()
