@@ -25,6 +25,7 @@ export default function apiReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        result: "Licence created with success",
         licences
       };
 
@@ -43,6 +44,7 @@ export default function apiReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        result: "Licence Loaded",
         licenceToEdit: action.payload.licence
       };
     case licencesConst.GETALL_REQUEST:
@@ -54,7 +56,8 @@ export default function apiReducer(state = initialState, action) {
       return {
         ...state,
         licences: action.payload.licences,
-        loading: false
+        loading: false,
+        result: "Licences Loaded"
       };
     case licencesConst.GETALL_FAILURE:
       return {
@@ -75,13 +78,31 @@ export default function apiReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        licences: licences
+        licences: licences,
+        result: "Licence Deleted"
       };
     case licencesConst.DELETE_FAILURE:
       return {
         ...state,
         error: action.payload.error,
         loading: false
+      };
+    case licencesConst.UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case licencesConst.UPDATE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error
+      };
+    case licencesConst.UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        result: "Licence has been updated"
       };
     default:
       return state;
