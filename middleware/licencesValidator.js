@@ -71,7 +71,9 @@ const verifyLicenceUpdateRequest = (req, res, next) => {
         .max(1024), //number of posts
       duration: Joi.number()
         .min(30)
-        .max(365)
+        .max(365),
+      state: Joi.string(),
+      creationDate: Joi.date()
     }
   };
   const { error } = Joi.validate(req.body, schema);

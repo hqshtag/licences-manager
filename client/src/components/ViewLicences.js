@@ -11,6 +11,7 @@ class ViewLicences extends React.Component {
     const token = localStorage.getItem("jwt-token");
     dispatch(apiActions.getAllLicences(token));
   }
+
   deleteLicence = id => {
     const { dispatch } = this.props;
     const token = localStorage.getItem("jwt-token");
@@ -19,6 +20,32 @@ class ViewLicences extends React.Component {
   openEditor = id => {
     const { dispatch } = this.props;
     dispatch(layoutAction.displayEditor(id));
+  };
+
+  disableLicence = (id, payload) => {
+    const { dispatch } = this.props;
+    const token = localStorage.getItem("jwt-token");
+    payload.state = "disabled";
+
+    const data = {
+      meta: {
+        ...payload
+      }
+    };
+
+    dispatch(apiActions.updateLicence(token, id, data));
+  };
+  enableLicence = (id, payload) => {
+    const { dispatch } = this.props;
+    const token = localStorage.getItem("jwt-token");
+    payload.state = "active";
+    const data = {
+      meta: {
+        ...payload
+      }
+    };
+
+    dispatch(apiActions.updateLicence(token, id, data));
   };
 
   render() {
@@ -31,21 +58,24 @@ class ViewLicences extends React.Component {
             key={index}
             remove={this.deleteLicence}
             openEditor={this.openEditor}
+            enable={this.enableLicence}
+            disable={this.disableLicence}
           />
         );
       });
     }
 
     return (
-      <Paper align="center" style={{ padding: 20 }}>
-        {licences}
+      <Paper align="center" style={{ padding: 20, paddingBottom: "45vh" }}>
+        {licences.sort()}
       </Paper>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { licences, loading } = state.api;
+  let { licences, loading } = state.api;
+
   return {
     licences,
     loading

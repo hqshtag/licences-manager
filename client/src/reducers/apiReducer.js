@@ -22,6 +22,7 @@ export default function apiReducer(state = initialState, action) {
       };
     case licencesConst.POST_SUCCESS:
       licences.push(action.payload.licence);
+
       return {
         ...state,
         loading: false,
@@ -71,10 +72,10 @@ export default function apiReducer(state = initialState, action) {
         loading: true
       };
     case licencesConst.DELETE_SUCCESS:
-      const { payload } = action.payload;
       licences = licences.filter(licence => {
-        return licence._id !== payload._id;
+        return licence._id !== action.payload.payload._id;
       });
+
       return {
         ...state,
         loading: false,
@@ -99,9 +100,16 @@ export default function apiReducer(state = initialState, action) {
         error: action.payload.error
       };
     case licencesConst.UPDATE_SUCCESS:
+      licences.map(licence => {
+        if (licence._id !== action.payload._id) {
+          return action.payload;
+        }
+      });
+
       return {
         ...state,
         loading: false,
+        licences,
         result: "Licence has been updated"
       };
     default:

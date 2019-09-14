@@ -51,7 +51,7 @@ async function updateLicence(token, id, data) {
   };
   setAuthHeader(token);
   const res = await axios(requestOptions);
-  return res;
+  return res.data.result;
 }
 
 async function removeLicence(token, id) {

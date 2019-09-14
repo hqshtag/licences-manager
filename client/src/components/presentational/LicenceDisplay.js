@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,13 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
 import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import EditIcon from "@material-ui/icons/Edit";
+import DisableIcon from "@material-ui/icons/PowerOff";
+import EnableIcon from "@material-ui/icons/Power";
 
 const useStyles = makeStyles(theme => ({
   button: {
     position: "relative",
-    left: "50%",
+    left: "42%",
     bottom: 20,
     margin: theme.spacing(1)
   },
@@ -55,7 +57,15 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 10,
     paddingBottom: 18,
     letterSpacing: 2,
-    color: "#FFC621"
+    color: "#49ff00"
+  },
+  disabledLicence: {
+    fontSize: 20,
+    fontWeight: 520,
+    paddingTop: 10,
+    paddingBottom: 18,
+    letterSpacing: 2,
+    color: "#FF004C"
   },
 
   info: {
@@ -74,6 +84,10 @@ function LicenceDisplay(props) {
   let day = date.getDate();
   let month = date.getMonth(); //Be careful! January is 0 not 1
   let year = date.getFullYear();
+
+  const [deleteState, toggleDeleteState] = useState(false);
+  const deleteStateOn = () => toggleDeleteState(true);
+  const deleteStateOff = () => toggleDeleteState(false);
 
   let dateString = day + "/" + (month + 1) + "/" + year;
 
@@ -94,7 +108,12 @@ function LicenceDisplay(props) {
             Phone: {client.phone}
           </Typography>
         ) : null}
-        <Typography className={classes.licence} color="textSecondary">
+        <Typography
+          className={
+            meta.state === "active" ? classes.licence : classes.disabledLicence
+          }
+          color="textSecondary"
+        >
           {licence}
         </Typography>
         <Divider variant="inset" />
@@ -104,25 +123,68 @@ function LicenceDisplay(props) {
         </Typography>
       </CardContent>
 
-      <CardActions className={classes.cardActions}>
+      <CardActions
+        align="center"
+        className={classes.cardActions}
+        onMouseOver={deleteStateOff}
+      >
         <Button
           variant="contained"
           color="primary"
+          size="small"
           className={classes.button}
           onClick={() => props.openEditor(_id)}
         >
           Edit
           <EditIcon className={classes.rightIcon}>send</EditIcon>
         </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          onClick={() => props.remove(_id)}
-        >
-          Delete
-          <DeleteIcon className={classes.rightIcon} />
-        </Button>
+        {meta.state !== "active" ? (
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            className={classes.button}
+            onClick={() => props.enable(_id, meta)}
+          >
+            activate
+            <EnableIcon className={classes.rightIcon} />
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.button}
+            onClick={() => props.disable(_id, meta)}
+          >
+            Disable
+            <DisableIcon className={classes.rightIcon} />
+          </Button>
+        )}
+
+        {!deleteState ? (
+          <Button
+            variant="outlined"
+            color="secondary"
+            size="small"
+            className={classes.button}
+            onClick={deleteStateOn}
+          >
+            Delete
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.button}
+            onClick={() => props.remove(_id)}
+          >
+            You sure?
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

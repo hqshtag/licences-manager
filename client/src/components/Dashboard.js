@@ -167,7 +167,6 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   const {
     dialogOpen,
     dialogOption,

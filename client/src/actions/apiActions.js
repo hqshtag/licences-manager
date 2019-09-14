@@ -86,7 +86,10 @@ function updateLicence(token, id, data) {
     return { type: licencesConst.UPDATE_REQUEST };
   };
   let success = updatedLicence => {
-    return { type: licencesConst.UPDATE_SUCCESS, payload: { updatedLicence } };
+    return {
+      type: licencesConst.UPDATE_SUCCESS,
+      payload: { ...updatedLicence }
+    };
   };
   let failure = error => {
     return { type: licencesConst.UPDATE_FAILURE, payload: { error } };
