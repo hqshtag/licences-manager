@@ -13,9 +13,13 @@ const {
   verifyLicenceUpdateRequest
 } = require("../middleware/licencesValidator");
 
+const { verifyToken } = require("../middleware/verifyToken");
+
 const router = express.Router();
 
 router.param("id", verifyLicenceId);
+
+router.use(verifyToken);
 
 //Route to get all licences
 router.get("/", (req, res, next) => {

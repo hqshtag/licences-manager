@@ -160,6 +160,30 @@ function login(username, password) {
   };
 }
 
+function verifyToken(token) {
+  let request = () => {
+    return { type: userConst.VERIFY_TOKEN_REQUEST };
+  };
+  let success = result => {
+    return { type: userConst.VERIFY_TOKEN_SUCCESS, payload: { result } };
+  };
+  let failure = error => {
+    return { type: userConst.VERIFY_TOKEN_REQUEST, payload: { error } };
+  };
+  return dispatch => {
+    dispatch(request());
+
+    apiServices.verifyToken(token).then(
+      res => {
+        dispatch(success(res));
+      },
+      error => {
+        dispatch(failure(error));
+      }
+    );
+  };
+}
+
 function logout() {
   apiServices.logout();
   return { type: userConst.LOGOUT };
@@ -172,7 +196,8 @@ const apiActions = {
   removeLicence,
   updateLicence,
   login,
-  logout
+  logout,
+  verifyToken
 };
 
 export default apiActions;

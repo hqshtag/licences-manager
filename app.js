@@ -8,8 +8,6 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const nocache = require("nocache");
 
-const { verifyToken } = require("./middleware/verifyToken");
-
 const fs = require("fs-extra");
 const rfs = require("rotating-file-stream");
 
@@ -47,7 +45,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", require("./routes/index"));
 app.use("/api", require("./routes/auth"));
-app.use("/api/licences", verifyToken);
 app.use("/api/licences", require("./routes/licences"));
 
 // For any routes that starts with "/api", catch 404 and forward to error handler

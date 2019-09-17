@@ -1,11 +1,10 @@
 import { userConst } from "../constants/apiConstants";
 
-let token = localStorage.getItem("jwt-token");
 let username = localStorage.getItem("username");
 let id = localStorage.getItem("id");
 
 const initialState = {
-  loggedIn: token ? true : false,
+  loggedIn: false,
   loading: false,
   id: id ? id : undefined,
   user: username ? username : undefined,
@@ -36,6 +35,22 @@ export function authReducer(state = initialState, action) {
     case userConst.LOGOUT:
       return {
         loggedIn: false
+      };
+    case userConst.VERIFY_TOKEN_REQUEST:
+      return {
+        loading: true
+      };
+    case userConst.VERIFY_TOKEN_SUCCESS:
+      return {
+        loading: false,
+        loggedIn: true,
+        result: action.payload.result
+      };
+    case userConst.VERIFY_TOKEN_FAILURE:
+      return {
+        loading: false,
+        loggedIn: false,
+        error: action.payload.error
       };
     default:
       return state;

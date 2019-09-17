@@ -101,9 +101,11 @@ export default function apiReducer(state = initialState, action) {
       };
     case licencesConst.UPDATE_SUCCESS:
       licences.map(licence => {
+        let res;
         if (licence._id !== action.payload._id) {
-          return action.payload;
+          res = action.payload;
         }
+        return res;
       });
 
       return {

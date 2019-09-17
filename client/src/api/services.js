@@ -7,7 +7,8 @@ export const apiServices = {
   createLicence,
   removeLicence,
   login,
-  logout
+  logout,
+  verifyToken
 };
 
 const baseurl = "http://localhost:5000/api/";
@@ -83,6 +84,19 @@ function logout() {
   localStorage.removeItem("jwt-token");
   localStorage.removeItem("username");
   localStorage.removeItem("id");
+}
+
+async function verifyToken(token) {
+  const requestOptions = {
+    method: "POST",
+    url: "http://localhost:5000/api/__verify_me",
+    data: {
+      token: token
+    }
+  };
+
+  const res = await axios(requestOptions);
+  return res;
 }
 
 function setAuthHeader(token) {

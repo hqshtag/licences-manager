@@ -13,6 +13,17 @@ const {
 // Bcrypt to encrypt passwords
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+const { checkToken } = require("../middleware/verifyToken");
+
+router.post("/__verify_me", checkToken, (req, res) => {
+  if (res.locals.tokenVerified) {
+    res.status(202).json({ verified: true, message: "Token verified" });
+  } else {
+    res
+      .status(401)
+      .json({ verified: false, message: "Token invalid or none existent" });
+  }
+});
 
 router.post("/signup", handleUserExistance, verifySignup, async (req, res) => {
   const { username, password } = req.body;
