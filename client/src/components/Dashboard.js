@@ -17,45 +17,8 @@ import RegisterLicence from "./RegisterLicenceForm";
 import ViewLicences from "./ViewLicences";
 import LicenceEditor from "./LicenceEditor";
 import "./styles/stylesheet.scss";
-//import Notifier from "./Notifier";
-
-//import { enqueueSnackbar, closeSnackbar } from "../actions/notiActions";
 
 class Dashboard extends React.Component {
-  /* notify = (message, variant) => {
-    // NOTE:
-    // if you want to be able to dispatch a `closeSnackbar` action later on,
-    // you SHOULD pass your own `key` in the options. `key` can be any sequence
-    // of number or characters, but it has to be unique to a given snackbar.
-    this.props.enqueueSnackbar({
-      message: message,
-      options: {
-        key: new Date().getTime() * Math.random(),
-        variant: variant,
-        autoHideDuration: 2500,
-        action: key => (
-          <Button
-            onClick={() => this.props.closeSnackbar(key)}
-            style={{ color: "white" }}
-          >
-            x
-          </Button>
-        )
-      }
-    });
-  };
-
-  componentDidUpdate() {
-    console.log(this.props.api);
-    const { result, error } = this.props.api;
-    if (error) {
-      this.notify(error, "error");
-    }
-    if (result) {
-      this.notify(result, "info");
-    }
-  } */
-
   openIdDialog = option => {
     const { openIdDialog } = layoutActions;
     const { dispatch } = this.props;

@@ -42,12 +42,15 @@ export function authReducer(state = initialState, action) {
       };
     case userConst.VERIFY_TOKEN_SUCCESS:
       return {
+        ...initialState,
+
         loading: false,
         loggedIn: true,
         result: action.payload.result
       };
     case userConst.VERIFY_TOKEN_FAILURE:
       return {
+        ...initialState,
         loading: false,
         loggedIn: false,
         error: action.payload.error
